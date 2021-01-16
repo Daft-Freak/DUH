@@ -1,0 +1,10 @@
+title: DUH Example
+description: Demo
+author: Daft_Freak
+splash:
+  file: assets/no-image.png
+icon:
+  file: assets/no-icon.png
+version: v0.0.0
+category: demo
+url: https://github.com/Daft-Freak/32blit-duh
