@@ -48,7 +48,9 @@ namespace duh {
       Point iconOffset(-(backTextWidth + iconSize + 2), 1); // from the top-right
 
       screen.text("Back", font, r, true, TextAlign::center_right);
-      draw_control_icon(&screen, Icon::B, r.tr() + iconOffset, iconSize, header_foreground);
+
+      Pen icon_bg((header_foreground.r + header_background.r) / 2, (header_foreground.g + header_background.g) / 2, (header_foreground.b + header_background.b) / 2);
+      draw_control_icon(&screen, Icon::B, r.tr() + iconOffset, iconSize, header_foreground, icon_bg);
     }
   }
 
@@ -125,7 +127,9 @@ namespace duh {
 
       Rect r(display_rect.x + item_padding_x, y, display_rect.w - item_padding_x * 2 - iconSize - 2, item_h);
       Point iconPos = Point(display_rect.x + display_rect.w - item_padding_x -iconSize, y + 1); // from the top-right
-      draw_control_icon(&screen, Icon::A, iconPos, iconSize, foreground_colour);
+
+      Pen icon_bg((foreground_colour.r + selected_item_background.r) / 2, (foreground_colour.g + selected_item_background.g) / 2, (foreground_colour.b + selected_item_background.b) / 2);
+      draw_control_icon(&screen, Icon::A, iconPos, iconSize, foreground_colour, icon_bg);
     }
   }
 
