@@ -3,6 +3,7 @@ cmake_minimum_required(VERSION 3.9)
 project(duh)
 set(DUH_SOURCE
   control-icons.cpp
+  file-browser.cpp
 )
 
 if(NOT TARGET BlitEngine)
