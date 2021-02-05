@@ -79,29 +79,28 @@ namespace duh {
 
     std::sort(files.begin(), files.end(), [](FileInfo &a, FileInfo & b){return a.name < b.name;});
 
-    if(file_exts.empty())
-      return;
-
-    // filter by extensions
-    files.erase(std::remove_if(files.begin(), files.end(), [this](const FileInfo &f) {
-      if(f.name[0] == '.')
-        return true;
-
-      if(!(f.flags & FileFlags::directory)) {
-        std::string ext;
-        auto dotPos = f.name.find_last_of('.');
-        if(dotPos != std::string::npos)
-          ext = f.name.substr(dotPos);
-
-        // convert to lower case
-        std::for_each(ext.begin(), ext.end(), [](char & c) {c = tolower(c);});
-
-        if(file_exts.find(ext) == file_exts.end())
+    if(!file_exts.empty()) {
+      // filter by extensions
+      files.erase(std::remove_if(files.begin(), files.end(), [this](const FileInfo &f) {
+        if(f.name[0] == '.')
           return true;
-      }
 
-      return false;
-    }), files.end());
+        if(!(f.flags & FileFlags::directory)) {
+          std::string ext;
+          auto dotPos = f.name.find_last_of('.');
+          if(dotPos != std::string::npos)
+            ext = f.name.substr(dotPos);
+
+          // convert to lower case
+          std::for_each(ext.begin(), ext.end(), [](char & c) {c = tolower(c);});
+
+          if(file_exts.find(ext) == file_exts.end())
+            return true;
+        }
+
+        return false;
+      }), files.end());
+    }
 
     // update menu items
     file_items.resize(files.size());
