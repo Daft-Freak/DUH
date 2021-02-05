@@ -41,6 +41,7 @@ namespace duh {
 
     r.x += item_padding_x;
     r.w -= item_padding_x * 2;
+    r.h += font.spacing_y;
 
     // back icon
     if(!cur_dir.empty()) {
