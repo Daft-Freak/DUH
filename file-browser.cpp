@@ -28,6 +28,11 @@ namespace duh {
     update_list();
   }
 
+  void FileBrowser::render() {
+    // deliberately skipping clear
+    render_menu();
+  }
+
   void FileBrowser::set_extensions(std::set<std::string> exts) {
     file_exts = exts;
   }
@@ -94,6 +99,10 @@ namespace duh {
   }
 
   void FileBrowser::render_item(const Item &item, int y, int index) const {
+    // clear for each item
+    screen.pen = background_colour;
+    screen.rectangle({display_rect.x, y, display_rect.w, item_h + item_spacing});
+
     Menu::render_item(item, y, index);
 
     if(index == current_item) {
@@ -104,6 +113,16 @@ namespace duh {
 
       Pen icon_bg((foreground_colour.r + selected_item_background.r) / 2, (foreground_colour.g + selected_item_background.g) / 2, (foreground_colour.b + selected_item_background.b) / 2);
       draw_control_icon(&screen, Icon::A, iconPos, iconSize, foreground_colour, icon_bg);
+    } else if(index == num_items - 1) {
+      // last item, check for empty space below
+      int end_y = y + item_h + item_spacing;
+      if(end_y < display_rect.y + display_rect.h) {
+        // clear it
+        int h = display_rect.h - (end_y - display_rect.y);
+
+        screen.pen = background_colour;
+        screen.rectangle({display_rect.x, end_y, display_rect.w, h});
+      }
     }
   }
 

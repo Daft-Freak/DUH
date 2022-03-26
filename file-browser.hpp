@@ -16,6 +16,8 @@ namespace duh {
 
     void init();
 
+    void render();
+
     void set_extensions(std::set<std::string> exts);
 
     void set_on_file_open(void (*func)(std::string));
