@@ -28,32 +28,6 @@ namespace duh {
     update_list();
   }
 
-  void FileBrowser::render() {
-    Menu::render();
-
-    const int iconSize = font.char_h > 8 ? 12 : 8;
-
-    const int32_t backTextWidth = screen.measure_text("Back", font).w;
-
-    Rect r(display_rect.tl(), Size(display_rect.w, header_h));
-
-    screen.pen = header_foreground;
-
-    r.x += item_padding_x;
-    r.w -= item_padding_x * 2;
-    r.h += font.spacing_y;
-
-    // back icon
-    if(!cur_dir.empty()) {
-      Point iconOffset(-(backTextWidth + iconSize + 2), 1); // from the top-right
-
-      screen.text("Back", font, r, true, TextAlign::center_right);
-
-      Pen icon_bg((header_foreground.r + header_background.r) / 2, (header_foreground.g + header_background.g) / 2, (header_foreground.b + header_background.b) / 2);
-      draw_control_icon(&screen, Icon::B, r.tr() + iconOffset, iconSize, header_foreground, icon_bg);
-    }
-  }
-
   void FileBrowser::set_extensions(std::set<std::string> exts) {
     file_exts = exts;
   }
@@ -130,6 +104,32 @@ namespace duh {
 
       Pen icon_bg((foreground_colour.r + selected_item_background.r) / 2, (foreground_colour.g + selected_item_background.g) / 2, (foreground_colour.b + selected_item_background.b) / 2);
       draw_control_icon(&screen, Icon::A, iconPos, iconSize, foreground_colour, icon_bg);
+    }
+  }
+
+  void FileBrowser::render_header(int x, int y, int w) {
+    Menu::render_header(x, y, w);
+
+    const int iconSize = font.char_h > 8 ? 12 : 8;
+
+    const int32_t backTextWidth = screen.measure_text("Back", font).w;
+
+    Rect r({x, y}, Size(w, header_h));
+
+    screen.pen = header_foreground;
+
+    r.x += item_padding_x;
+    r.w -= item_padding_x * 2;
+    r.h += font.spacing_y;
+
+    // back icon
+    if(!cur_dir.empty()) {
+      Point iconOffset(-(backTextWidth + iconSize + 2), 1); // from the top-right
+
+      screen.text("Back", font, r, true, TextAlign::center_right);
+
+      Pen icon_bg((header_foreground.r + header_background.r) / 2, (header_foreground.g + header_background.g) / 2, (header_foreground.b + header_background.b) / 2);
+      draw_control_icon(&screen, Icon::B, r.tr() + iconOffset, iconSize, header_foreground, icon_bg);
     }
   }
 

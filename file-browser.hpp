@@ -16,8 +16,6 @@ namespace duh {
 
     void init();
 
-    void render();
-
     void set_extensions(std::set<std::string> exts);
 
     void set_on_file_open(void (*func)(std::string));
@@ -28,6 +26,7 @@ namespace duh {
     void update_list();
 
     void render_item(const Item &item, int y, int index) const override;
+    void render_header(int x, int y, int w) override;
 
     void update_item(const Item &item) override;
 
