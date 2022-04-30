@@ -84,7 +84,7 @@ namespace duh {
     }
 
     // update menu items
-    file_items.resize(files.size());
+    file_items.resize(files.empty() ? 1 : files.size());
 
     unsigned int i = 0;
     for(auto &file : files) {
@@ -94,6 +94,10 @@ namespace duh {
       file_items[i].id = i;
       file_items[i++].label = file.name.c_str();
     }
+
+    // placeholder item
+    if(files.empty())
+      file_items[0].label = "No files found!";
 
     set_items(file_items.data(), file_items.size());
   }
@@ -105,7 +109,7 @@ namespace duh {
 
     Menu::render_item(item, y, index);
 
-    if(index == current_item) {
+    if(index == current_item && !files.empty()) {
       const int iconSize = font.char_h > 8 ? 12 : 8;
 
       Rect r(display_rect.x + item_padding_x, y, display_rect.w - item_padding_x * 2 - iconSize - 2, item_h);
@@ -170,7 +174,7 @@ namespace duh {
   }
 
   void FileBrowser::item_activated(const Item &item){
-    if(!num_items)
+    if(files.empty())
       return;
 
     if(files[current_item].flags & FileFlags::directory) {
