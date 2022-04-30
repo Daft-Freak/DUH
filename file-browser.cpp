@@ -113,7 +113,9 @@ namespace duh {
 
       Pen icon_bg((foreground_colour.r + selected_item_background.r) / 2, (foreground_colour.g + selected_item_background.g) / 2, (foreground_colour.b + selected_item_background.b) / 2);
       draw_control_icon(&screen, Icon::A, iconPos, iconSize, foreground_colour, icon_bg);
-    } else if(index == num_items - 1) {
+    }
+
+    if(index == num_items - 1) {
       // last item, check for empty space below
       int end_y = y + item_h + item_spacing;
       if(end_y < display_rect.y + display_rect.h) {
