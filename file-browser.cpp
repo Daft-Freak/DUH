@@ -56,32 +56,28 @@ namespace duh {
   void FileBrowser::update_list() {
     title = cur_dir;
 
-    files = list_files(cur_dir.substr(0, cur_dir.length() - 1));
+    files = list_files(cur_dir.substr(0, cur_dir.length() - 1), [this](const FileInfo &f) {
+      if(f.name[0] == '.')
+        return false;
+
+      if(!file_exts.empty() && !(f.flags & FileFlags::directory)) {
+        std::string ext;
+        auto dotPos = f.name.find_last_of('.');
+        if(dotPos != std::string::npos)
+          ext = f.name.substr(dotPos);
+
+        // convert to lower case
+        std::for_each(ext.begin(), ext.end(), [](char & c) {c = tolower(c);});
+
+        if(file_exts.find(ext) == file_exts.end())
+          return false;
+      }
+
+      return true;
+    });
+
 
     std::sort(files.begin(), files.end(), [](FileInfo &a, FileInfo & b){return a.name < b.name;});
-
-    if(!file_exts.empty()) {
-      // filter by extensions
-      files.erase(std::remove_if(files.begin(), files.end(), [this](const FileInfo &f) {
-        if(f.name[0] == '.')
-          return true;
-
-        if(!(f.flags & FileFlags::directory)) {
-          std::string ext;
-          auto dotPos = f.name.find_last_of('.');
-          if(dotPos != std::string::npos)
-            ext = f.name.substr(dotPos);
-
-          // convert to lower case
-          std::for_each(ext.begin(), ext.end(), [](char & c) {c = tolower(c);});
-
-          if(file_exts.find(ext) == file_exts.end())
-            return true;
-        }
-
-        return false;
-      }), files.end());
-    }
 
     // update menu items
     file_items.resize(files.empty() ? 1 : files.size());
