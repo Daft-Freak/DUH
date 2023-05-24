@@ -1,7 +1,7 @@
 #include "control-icons.hpp"
 #include "assets.hpp"
 
-#include "graphics/sprite.hpp"
+#include "graphics/surface.hpp"
 
 using namespace blit;
 
