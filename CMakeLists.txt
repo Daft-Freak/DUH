@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.9)
+cmake_minimum_required(VERSION 3.15)
 
 project(duh)
 set(DUH_SOURCE
@@ -13,4 +13,5 @@ endif()
 add_library(DUH STATIC ${DUH_SOURCE})
 target_include_directories(DUH PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 target_link_libraries(DUH BlitEngine)
+
 blit_assets_yaml(DUH assets.yml)
